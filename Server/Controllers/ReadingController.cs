@@ -42,6 +42,8 @@ namespace Server.Controllers
         public IActionResult GetReadingsBySensor(int sensorId)
         {
             var readings = _readingService.GetReadingsBySensor(sensorId);
+            if (readings == null || !readings.Any())
+                return NoContent();
             return Ok(readings);
         }
     }

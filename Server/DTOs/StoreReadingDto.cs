@@ -16,6 +16,9 @@ namespace Server.DTOs
         [Required(ErrorMessage = "CO je obavezan")]
         public double CO { get; set; }
 
+        [Required(ErrorMessage = "NO2 je obavezan")]
+        public double NO2 { get; set; }
+
         [Required(ErrorMessage = "SO2 je obavezan")]
         public double SO2 { get; set; }
 

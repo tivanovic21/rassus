@@ -32,7 +32,9 @@ namespace Server.Services
                 Humidity = model.Humidity,
                 Pressure = model.Pressure,
                 SO2 = model.SO2,
+                NO2 = model.NO2,
                 CO = model.CO,
+                SensorId = model.SensorId,
             };
             return _readingRepository.Add(reading);
         }
