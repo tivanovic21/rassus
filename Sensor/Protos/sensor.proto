@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "Sensor";
+
+package sensor;
+
+service SensorService {
+  rpc GetReading (ReadingRequest) returns (ReadingResponse);
+}
+
+message ReadingRequest {
+  int32 sensor_id = 1;
+}
+
+message ReadingResponse {
+  optional double temperature = 1;
+  optional double pressure = 2;
+  optional double humidity = 3;
+  optional double co = 4;
+  optional double no2 = 5;
+  optional double so2 = 6;
+}
