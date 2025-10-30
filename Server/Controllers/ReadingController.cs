@@ -27,7 +27,7 @@ namespace Server.Controllers
             model.SensorId = sensorId;
             var reading = _readingService.StoreReading(model);
             if (reading != null)
-                return Ok(reading);
+                return CreatedAtAction(nameof(GetReadingsBySensor), new { sensorId = sensorId }, reading);
             return BadRequest("Neuspješno spremanje očitanja");
         }
 

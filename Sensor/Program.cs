@@ -16,6 +16,9 @@ var port = args.Length > 0 ?
     args[0] :
     builder.Configuration["SensorPort"] ?? throw new ArgumentNullException("SensorPort nije pronađen");
 
+// postavlja port iz argumenta u konfig da ga mogu dinamično dohvatiti pri kreiranju novog senzora
+builder.Configuration["SensorPort"] = port; 
+
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenLocalhost(int.Parse(port), listenOptions =>

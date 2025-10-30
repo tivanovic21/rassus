@@ -1,7 +1,5 @@
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Hosting.Server.Features;
-using Microsoft.Extensions.Hosting;
 using Sensor.Clients;
 using Sensor.Models;
 

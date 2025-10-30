@@ -37,7 +37,7 @@ namespace Server.Controllers
         {
             var sensor = _sensorService.RegisterSensor(model);
             if (sensor != null)
-                return Ok(sensor);
+                return CreatedAtAction(nameof(GetAllSensors), new { id = sensor.Id }, sensor);
             return BadRequest("Neuspješna registracija senzora");
         }
     }
