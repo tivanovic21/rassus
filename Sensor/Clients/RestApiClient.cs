@@ -103,12 +103,13 @@ namespace Sensor.Clients
                 else
                 {
                     _logger.LogError("Greška pri spremanju očitanja. Status: {Status}", response.StatusCode);
+                    _logger.LogError("Response: {Response}", await response.Content.ReadAsStringAsync());
                     return false;
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Greška pri spremanju očitanja");
+                _logger.LogError(ex, "Greška pri spremanju očitanja: {Message}", ex.Message);
                 return false;
             }
         }
