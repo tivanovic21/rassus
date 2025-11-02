@@ -7,11 +7,11 @@ namespace Server.Repositories
     public class SensorRepository : ISensorRepository
     {
         private readonly ConcurrentDictionary<int, Sensor> _sensors = new();
-        private int _nextId = 1;
+        private int _nextId = 0;
 
         public Sensor Add(Sensor sensor)
         {
-            sensor.Id = _nextId++;
+            sensor.Id = Interlocked.Increment(ref _nextId);
             _sensors.TryAdd(sensor.Id, sensor);
             return sensor;
         }
@@ -23,7 +23,7 @@ namespace Server.Repositories
 
         public IEnumerable<Sensor> GetAll()
         {
-            return _sensors.Values;
+            return _sensors.Values.ToArray();
         }
 
         public Sensor? GetById(int id)

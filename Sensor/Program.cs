@@ -5,7 +5,21 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGrpc();
 
-builder.Services.AddHttpClient<RestApiClient>();
+builder.Services.AddHttpClient<RestApiClient>(client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(10);
+    client.DefaultRequestHeaders.ConnectionClose = false;
+}).ConfigurePrimaryHttpMessageHandler(() =>
+{
+    return new SocketsHttpHandler
+    {
+        PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+        PooledConnectionIdleTimeout = TimeSpan.FromMinutes(2),
+        MaxConnectionsPerServer = int.MaxValue,
+        EnableMultipleHttp2Connections = true,
+        ConnectTimeout = TimeSpan.FromSeconds(5)
+    };
+});
 
 builder.Services.AddSingleton<SensorClientService>();
 builder.Services.AddHostedService(provider => provider.GetRequiredService<SensorClientService>());
@@ -23,8 +37,13 @@ builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenLocalhost(int.Parse(port), listenOptions =>
     {
-        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http1AndHttp2;
+        // mora http2 jer ako je http1andhttp2 baca grešku pri gRPC pozivu
+        listenOptions.Protocols = Microsoft.AspNetCore.Server.Kestrel.Core.HttpProtocols.Http2;
     });
+
+    options.Limits.MaxConcurrentConnections = 100;
+    options.Limits.MaxConcurrentUpgradedConnections = 100;
+    options.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
 });
 
 var app = builder.Build();

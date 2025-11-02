@@ -17,6 +17,14 @@ builder.Services.AddSingleton<IReadingRepository, ReadingRepository>();
 builder.Services.AddScoped<ISensorService, SensorService>();
 builder.Services.AddScoped<IReadingService, ReadingService>();
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxConcurrentConnections = 200;
+    options.Limits.MaxConcurrentUpgradedConnections = 200;
+    options.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
+    options.Limits.RequestHeadersTimeout = TimeSpan.FromSeconds(30);
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

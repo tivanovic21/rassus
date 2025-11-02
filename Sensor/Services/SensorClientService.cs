@@ -207,8 +207,8 @@ namespace Sensor.Services
                 var request = new ReadingRequest { SensorId = _sensorInfo?.Id ?? 0 };
                 var response = await client.GetReadingAsync(request, deadline: DateTime.UtcNow.AddSeconds(2));
 
-                _logger.LogInformation("Primljeno od susjeda: Temp={Temp}°C, Press={Press}hPa", 
-                    response.Temperature, response.Pressure);
+                _logger.LogInformation("Primljeno od susjeda: Temp={Temp}°C, Press={Press}hPa, Hum={Hum}%, CO={CO}, NO2={NO2}, SO2={SO2}", 
+                    response.Temperature, response.Pressure, response.Humidity, response.Co, response.No2, response.So2);
 
                 return new ReadingData
                 {
