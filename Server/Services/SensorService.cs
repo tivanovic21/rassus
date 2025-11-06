@@ -60,10 +60,10 @@ namespace Server.Services
         {
             var newSensor = new Sensor
             {
-                Latitude = model.Latitude,
-                Longitude = model.Longitude,
+                Latitude = model.Latitude.GetValueOrDefault(),
+                Longitude = model.Longitude.GetValueOrDefault(),
                 Ip = model.Ip,
-                Port = model.Port
+                Port = model.Port.GetValueOrDefault()
             };
 
             return _sensorRepository.Add(newSensor);
